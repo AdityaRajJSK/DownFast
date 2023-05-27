@@ -11,9 +11,9 @@ import pyrogram
 from pyrogram.errors import UserAlreadyParticipant, InviteHashExpired
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from telethon.sessions import StringSession
-from telethon.sync import TelegramClient
-from decouple import config
+#from telethon.sessions import StringSession
+#from telethon.sync import TelegramClient
+#from decouple import config
 import logging, sys
 import threading
 
