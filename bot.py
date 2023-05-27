@@ -11,16 +11,16 @@ import pyrogram
 from pyrogram.errors import UserAlreadyParticipant, InviteHashExpired
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-#from telethon.sessions import StringSession
-#from telethon.sync import TelegramClient
-#from decouple import config
+from telethon.sessions import StringSession
+from telethon.sync import TelegramClient
+from decouple import config
 import logging, sys
 import threading
 
 API_ID = environ.get('API_ID', 22507697)
 API_HASH = environ.get('API_HASH', '5604a464d474e5738980a533580b751a')
 BOT_TOKEN = environ.get('BOT_TOKEN', '6245284320:AAEPaZXi_NnfcAbCK94DPcni7N2xGELhpJk')
-SESSION = environ.get('SESSION', 'AQBhPFxrmxMjobupLs54ZaLmwCv3IDGjiSOZS9CSoUenH-DfNUjZnXamwZ5vabZMAeJDaKM-gaCpf0_fWBiuAPBh1CWno2ICXBkpLmUd6BADn3kx3cjAOCbranR1BntU46ryLdK-qf08rELhYIT7LQnnj-U6HQ3qaOkfethlR7eweDNOZepijU0SEhxO-qfJiGT4uKwNdSxBKlNuSizYD29j3is7ceEl0K-SMvVo3h3OmG8UUzNh-QkSC6LsvYPdUc1dxOsvd4VTeqQiJZcarnPRegtutLAqTOAX5zIKlcvR9T1YspzpW3d2xHJN9KHIZ0hvZo0UY2XGrtDEZDJvnAxnAAAAAVbqnxYA')
+# SESSION = environ.get('SESSION', 'AQBhPFxrmxMjobupLs54ZaLmwCv3IDGjiSOZS9CSoUenH-DfNUjZnXamwZ5vabZMAeJDaKM-gaCpf0_fWBiuAPBh1CWno2ICXBkpLmUd6BADn3kx3cjAOCbranR1BntU46ryLdK-qf08rELhYIT7LQnnj-U6HQ3qaOkfethlR7eweDNOZepijU0SEhxO-qfJiGT4uKwNdSxBKlNuSizYD29j3is7ceEl0K-SMvVo3h3OmG8UUzNh-QkSC6LsvYPdUc1dxOsvd4VTeqQiJZcarnPRegtutLAqTOAX5zIKlcvR9T1YspzpW3d2xHJN9KHIZ0hvZo0UY2XGrtDEZDJvnAxnAAAAAVbqnxYA')
 CHANNEL = environ.get('CHANNEL', 'https://google.com')
 HOWTO = environ.get('HOWTO', 'https://google.com')
 
@@ -31,7 +31,7 @@ bot = Client('fastdown bot',
              workers=50,
              sleep_threshold=0)
              
-if SESSION is not None:
+"""if SESSION is not None:
     acc = Client(
     session_name=SESSION, 
     api_hash=API_HASH, 
@@ -43,7 +43,7 @@ if SESSION is not None:
             print("Userbot Error ! Have you added SESSION while deploying??")
             sys.exit(1)
         
-else: acc = None
+else: acc = None"""
 
 # download status
 def downstatus(statusfile,message):
@@ -89,7 +89,7 @@ async def start(bot, message):
         f"**Hey, {message.chat.first_name}!**\n\n"
         "**I am a Fast Multi Downloader Bot and i am able to download telegram files to your local storage,just send me link of file and video or forward any File or Video**")
         
-@bot.on_message(filters.text)
+"""@bot.on_message(filters.text)
 def save(client: pyrogram.client.Client, message: pyrogram.types.messages_and_media.message.Message):
 
 	# joining chats
@@ -135,11 +135,11 @@ def save(client: pyrogram.client.Client, message: pyrogram.types.messages_and_me
 					bot.send_message(message.chat.id,f"**String Session is not Set**", reply_to_message_id=message.message_id)
 					return
 				try: handle_private(message,username,msgid)
-				except Exception as e: bot.send_message(message.chat.id,f"**Error** : __{e}__", reply_to_message_id=message.message_id)
+				except Exception as e: bot.send_message(message.chat.id,f"**Error** : __{e}__", reply_to_message_id=message.message_id)"""
 	
 	
 # handle private
-def handle_private(message,chatid,msgid):
+"""def handle_private(message,chatid,msgid):
 		msg  = acc.get_messages(chatid,msgid)
 
 		if "text" in str(msg):
@@ -151,7 +151,7 @@ def handle_private(message,chatid,msgid):
 		dosta.start()
 		file = acc.download_media(msg, progress=progress, progress_args=[message,"down"])
 		os.remove(f'{message.chat.id}{message.message_id}downstatus.txt')
-		if os.path.exists(f'{message.chat.id}{message.message_id}upstatus.txt'): os.remove(f'{message.chat.id}{message.message_id}upstatus.txt')
+		if os.path.exists(f'{message.chat.id}{message.message_id}upstatus.txt'): os.remove(f'{message.chat.id}{message.message_id}upstatus.txt')"""
 
 
 @bot.on_message(filters.video | filters.document)
