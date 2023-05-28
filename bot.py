@@ -1,11 +1,7 @@
 from os import environ
 import os
 import time
-#import aiohttp
 from pyrogram import Client, filters
-#from bs4 import BeautifulSoup
-import requests
-import re
 
 import pyrogram
 from pyrogram.errors import UserAlreadyParticipant, InviteHashExpired
@@ -13,10 +9,10 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import logging, sys
 import threading
 
-API_ID = environ.get('API_ID', 24748535)
-API_HASH = environ.get('API_HASH', '7600412f97699a960c218fa1240a0822')
-BOT_TOKEN = environ.get('BOT_TOKEN', '6005978396:AAF8v6xZwtmM0CBgDwy_DlYW9quk2czF8ws')
-# SESSION = environ.get('SESSION', 'AQBhPFxrmxMjobupLs54ZaLmwCv3IDGjiSOZS9CSoUenH-DfNUjZnXamwZ5vabZMAeJDaKM-gaCpf0_fWBiuAPBh1CWno2ICXBkpLmUd6BADn3kx3cjAOCbranR1BntU46ryLdK-qf08rELhYIT7LQnnj-U6HQ3qaOkfethlR7eweDNOZepijU0SEhxO-qfJiGT4uKwNdSxBKlNuSizYD29j3is7ceEl0K-SMvVo3h3OmG8UUzNh-QkSC6LsvYPdUc1dxOsvd4VTeqQiJZcarnPRegtutLAqTOAX5zIKlcvR9T1YspzpW3d2xHJN9KHIZ0hvZo0UY2XGrtDEZDJvnAxnAAAAAVbqnxYA')
+API_ID = environ.get('API_ID', 22507697)
+API_HASH = environ.get('API_HASH', '5604a464d474e5738980a533580b751a')
+BOT_TOKEN = environ.get('BOT_TOKEN', '6245284320:AAEPaZXi_NnfcAbCK94DPcni7N2xGELhpJk')
+# SESSION = environ.get('SESSION', None)
 CHANNEL = environ.get('CHANNEL', 'https://google.com')
 HOWTO = environ.get('HOWTO', 'https://google.com')
 
@@ -157,7 +153,11 @@ async def downfast(bot, message):
     dosta.start()
     file = await bot.download_media(message, progress=progress, progress_args=[message,"down"])
     os.remove(f'{message.chat.id}{message.id}downstatus.txt')
-    if os.path.exists(f'{message.chat.id}{message.id}upstatus.txt'): os.remove(f'{message.chat.id}{message.id}upstatus.txt')
+    #if os.path.exists(f'{message.chat.id}{message.id}upstatus.txt'): os.remove(f'{message.chat.id}{message.id}upstatus.txt')
+    extn = os.path.splitext(file)[1]
+    if not (message.caption==None): os.rename(file, f'downloads/{message.caption}{extn}')
+    await bot.delete_messages(message.chat.id,[smsg.id])
+    smsg = await bot.send_message(message.chat.id, '**Downloaded Successfully ✅**', reply_to_message_id=message.id)
     
 
 
