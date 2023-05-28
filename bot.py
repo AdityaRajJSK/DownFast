@@ -1,25 +1,21 @@
 from os import environ
 import os
 import time
-import aiohttp
+#import aiohttp
 from pyrogram import Client, filters
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 import requests
 import re
 
 import pyrogram
 from pyrogram.errors import UserAlreadyParticipant, InviteHashExpired
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
-#from telethon.sessions import StringSession
-#from telethon.sync import TelegramClient
-#from decouple import config
 import logging, sys
 import threading
 
-API_ID = environ.get('API_ID', 22507697)
-API_HASH = environ.get('API_HASH', '5604a464d474e5738980a533580b751a')
-BOT_TOKEN = environ.get('BOT_TOKEN', '6245284320:AAEPaZXi_NnfcAbCK94DPcni7N2xGELhpJk')
+API_ID = environ.get('API_ID', 24748535)
+API_HASH = environ.get('API_HASH', '7600412f97699a960c218fa1240a0822')
+BOT_TOKEN = environ.get('BOT_TOKEN', '6005978396:AAF8v6xZwtmM0CBgDwy_DlYW9quk2czF8ws')
 # SESSION = environ.get('SESSION', 'AQBhPFxrmxMjobupLs54ZaLmwCv3IDGjiSOZS9CSoUenH-DfNUjZnXamwZ5vabZMAeJDaKM-gaCpf0_fWBiuAPBh1CWno2ICXBkpLmUd6BADn3kx3cjAOCbranR1BntU46ryLdK-qf08rELhYIT7LQnnj-U6HQ3qaOkfethlR7eweDNOZepijU0SEhxO-qfJiGT4uKwNdSxBKlNuSizYD29j3is7ceEl0K-SMvVo3h3OmG8UUzNh-QkSC6LsvYPdUc1dxOsvd4VTeqQiJZcarnPRegtutLAqTOAX5zIKlcvR9T1YspzpW3d2xHJN9KHIZ0hvZo0UY2XGrtDEZDJvnAxnAAAAAVbqnxYA')
 CHANNEL = environ.get('CHANNEL', 'https://google.com')
 HOWTO = environ.get('HOWTO', 'https://google.com')
@@ -56,7 +52,7 @@ def downstatus(statusfile,message):
 		with open(statusfile,"r") as downread:
 			txt = downread.read()
 		try:
-			bot.edit_message_text(message.chat.id, message.message_id, f"__Downloaded__ : **{txt}**")
+			bot.edit_message_text(message.chat.id, message.id, f"__Downloaded__ : **{txt}**")
 			time.sleep(2)
 		except:
 			time.sleep(2)
@@ -72,14 +68,14 @@ def downstatus(statusfile,message):
 		with open(statusfile,"r") as upread:
 			txt = upread.read()
 		try:
-			bot.edit_message_text(message.chat.id, message.message_id, f"__Uploaded__ : **{txt}**")
+			bot.edit_message_text(message.chat.id, message.id, f"__Uploaded__ : **{txt}**")
 			time.sleep(2)
 		except:
 			time.sleep(2)"""
 			
 # progress writter
 def progress(current, total, message, type):
-	with open(f'{message.chat.id}{message.message_id}{type}status.txt',"w") as fileup:
+	with open(f'{message.chat.id}{message.id}{type}status.txt',"w") as fileup:
 		fileup.write(f"{current * 100 / total:.1f}%")
 
 
@@ -96,19 +92,19 @@ def save(client: pyrogram.client.Client, message: pyrogram.types.messages_and_me
 	if "https://t.me/+" in message.text or "https://t.me/joinchat/" in message.text:
 
 		if acc is None:
-			bot.send_message(message.chat.id,f"**String Session is not Set**", reply_to_message_id=message.message_id)
+			bot.send_message(message.chat.id,f"**String Session is not Set**", reply_to_message_id=message.id)
 			return
 
 		try:
 			try: acc.join_chat(message.text)
 			except Exception as e: 
-				bot.send_message(message.chat.id,f"**Error** : __{e}__", reply_to_message_id=message.message_id)
+				bot.send_message(message.chat.id,f"**Error** : __{e}__", reply_to_message_id=message.id)
 				return
-			bot.send_message(message.chat.id,"**Chat Joined**", reply_to_message_id=message.message_id)
+			bot.send_message(message.chat.id,"**Chat Joined**", reply_to_message_id=message.id)
 		except UserAlreadyParticipant:
-			bot.send_message(message.chat.id,"**Chat alredy Joined**", reply_to_message_id=message.message_id)
+			bot.send_message(message.chat.id,"**Chat alredy Joined**", reply_to_message_id=message.id)
 		except InviteHashExpired:
-			bot.send_message(message.chat.id,"**Invalid Link**", reply_to_message_id=message.message_id)
+			bot.send_message(message.chat.id,"**Invalid Link**", reply_to_message_id=message.id)
 	
 	# getting message
 	elif "https://t.me/" in message.text:
@@ -120,10 +116,10 @@ def save(client: pyrogram.client.Client, message: pyrogram.types.messages_and_me
 		if "https://t.me/c/" in message.text:
 			chatid = int("-100" + datas[-2])
 			if acc is None:
-				bot.send_message(message.chat.id,f"**String Session is not Set**", reply_to_message_id=message.message_id)
+				bot.send_message(message.chat.id,f"**String Session is not Set**", reply_to_message_id=message.id)
 				return
 			try: handle_private(message,chatid,msgid)
-			except Exception as e: bot.send_message(message.chat.id,f"**Error** : __{e}__", reply_to_message_id=message.message_id)
+			except Exception as e: bot.send_message(message.chat.id,f"**Error** : __{e}__", reply_to_message_id=message.id)
 		
 		# public
 		else:
@@ -132,10 +128,10 @@ def save(client: pyrogram.client.Client, message: pyrogram.types.messages_and_me
 			try: bot.copy_message(message.chat.id, msg.chat.id, msg.id)
 			except:
 				if acc is None:
-					bot.send_message(message.chat.id,f"**String Session is not Set**", reply_to_message_id=message.message_id)
+					bot.send_message(message.chat.id,f"**String Session is not Set**", reply_to_message_id=message.id)
 					return
 				try: handle_private(message,username,msgid)
-				except Exception as e: bot.send_message(message.chat.id,f"**Error** : __{e}__", reply_to_message_id=message.message_id)"""
+				except Exception as e: bot.send_message(message.chat.id,f"**Error** : __{e}__", reply_to_message_id=message.id)"""
 	
 	
 # handle private
@@ -143,25 +139,25 @@ def save(client: pyrogram.client.Client, message: pyrogram.types.messages_and_me
 		msg  = acc.get_messages(chatid,msgid)
 
 		if "text" in str(msg):
-			bot.send_message(message.chat.id, msg.text, entities=msg.entities, reply_to_message_id=message.message_id)
+			bot.send_message(message.chat.id, msg.text, entities=msg.entities, reply_to_message_id=message.id)
 			return
 
-		smsg = bot.send_message(message.chat.id, '__Downloading__', reply_to_message_id=message.message_id)
-		dosta = threading.Thread(target=lambda:downstatus(f'{message.chat.id}{message.message_id}downstatus.txt',smsg),daemon=True)
+		smsg = bot.send_message(message.chat.id, '__Downloading__', reply_to_message_id=message.id)
+		dosta = threading.Thread(target=lambda:downstatus(f'{message.chat.id}{message.id}downstatus.txt',smsg),daemon=True)
 		dosta.start()
 		file = acc.download_media(msg, progress=progress, progress_args=[message,"down"])
-		os.remove(f'{message.chat.id}{message.message_id}downstatus.txt')
-		if os.path.exists(f'{message.chat.id}{message.message_id}upstatus.txt'): os.remove(f'{message.chat.id}{message.message_id}upstatus.txt')"""
+		os.remove(f'{message.chat.id}{message.id}downstatus.txt')
+		if os.path.exists(f'{message.chat.id}{message.id}upstatus.txt'): os.remove(f'{message.chat.id}{message.id}upstatus.txt')"""
 
 
 @bot.on_message(filters.video | filters.document)
-async def vdood_upload(bot, message):
-    smsg = await bot.send_message(message.chat.id, '__Downloading__', reply_to_message_id=message.message_id)
-    dosta = threading.Thread(target=lambda:downstatus(f'{message.chat.id}{message.message_id}downstatus.txt',smsg),daemon=True)
+async def downfast(bot, message):
+    smsg = await bot.send_message(message.chat.id, '__Downloading__', reply_to_message_id=message.id)
+    dosta = threading.Thread(target=lambda:downstatus(f'{message.chat.id}{message.id}downstatus.txt',smsg),daemon=True)
     dosta.start()
     file = await bot.download_media(message, progress=progress, progress_args=[message,"down"])
-    os.remove(f'{message.chat.id}{message.message_id}downstatus.txt')
-    if os.path.exists(f'{message.chat.id}{message.message_id}upstatus.txt'): os.remove(f'{message.chat.id}{message.message_id}upstatus.txt')
+    os.remove(f'{message.chat.id}{message.id}downstatus.txt')
+    if os.path.exists(f'{message.chat.id}{message.id}upstatus.txt'): os.remove(f'{message.chat.id}{message.id}upstatus.txt')
     
 
 
